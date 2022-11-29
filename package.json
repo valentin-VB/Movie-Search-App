@@ -2,7 +2,7 @@
   "name": "react-app-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://your_username.github.io/your_repo_name/",
+  "homepage": "https://valentin-vb.github.io/Movie-Search-App/",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@testing-library/jest-dom": "^5.16.3",
