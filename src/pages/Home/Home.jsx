@@ -1,6 +1,6 @@
 import TrendingList from 'components/TrendingList';
 
-export function Home() {
+function Home() {
   return (
     <>
       <h1>Trending Movies this Week</h1>
@@ -8,3 +8,5 @@ export function Home() {
     </>
   );
 }
+
+export default Home;

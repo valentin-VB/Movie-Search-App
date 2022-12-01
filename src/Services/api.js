@@ -33,3 +33,15 @@ export async function fetchMovieDetails(movieId) {
 
   return response.data;
 }
+
+export async function fetchMovieByQuery(query) {
+  const response = await axios.get(`${BASE_URL}/search/movie`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+      query: query,
+    },
+  });
+
+  return response.data.results;
+}

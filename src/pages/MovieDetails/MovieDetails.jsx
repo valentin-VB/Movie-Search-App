@@ -1,25 +1,28 @@
-import { NavLink, useParams, Outlet } from 'react-router-dom';
+import { NavLink, useParams, Outlet, useLocation } from 'react-router-dom';
 import { fetchConfig, fetchMovieDetails } from 'Services/api';
 import { useState, useEffect } from 'react';
 import { Box } from 'components/Reusable Components/Box';
+import Loader from 'components/Reusable Components/Loader';
+import { StyledNavLink } from 'components/StyledNavLink/StyledNavLink';
 
-export function MovieDetails() {
+function MovieDetails() {
   const [movieDetails, setMovieDetails] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const [config, setConfig] = useState(null);
   const { movieId } = useParams();
+
+  const location = useLocation();
+  console.log('location', location);
+  const backLinkHref = location.state?.from ?? '/movies';
+
   useEffect(() => {
+    setLoading(true);
+
     const fetchData = async () => {
-      //   try {
-      //     const movie = await fetchMoviebyId(Number(movieId));
-      //     setMovie(movie);
-      //   } catch (error) {
-      //     console.warn(error);
-      //   }
       try {
         const movieDetails = await fetchMovieDetails(movieId);
-        console.log('movieDetails', movieDetails);
         setMovieDetails(movieDetails);
+        setLoading(false);
       } catch (error) {
         console.warn(error);
       }
@@ -42,6 +45,8 @@ export function MovieDetails() {
   const { title, poster_path, overview, vote_average, genres } = movieDetails;
   return (
     <>
+      {loading && <Loader></Loader>}
+      <NavLink to={backLinkHref}>Back to Movies</NavLink>
       <Box>
         <div>
           <img
@@ -60,10 +65,11 @@ export function MovieDetails() {
           <p>{genres.map(genr => `${genr.name},  `)}</p>
         </Box>
       </Box>
-      <NavLink to="cast">Cast</NavLink>
-      <NavLink to="reviews">Reviews</NavLink>
-
+      <StyledNavLink to="cast">Cast</StyledNavLink>
+      <StyledNavLink to="reviews">Reviews</StyledNavLink>
       <Outlet context={[movieDetails, config]} />
     </>
   );
 }
+
+export default MovieDetails;
